@@ -99,7 +99,7 @@ class main:
         Button(self.crf, text='Go to Login', bd=3, font=('', 15), padx=5, pady=5, command=self.log).grid(row=2,column=1)
 
 
-#create window and application object
+#create window and application object 
 root = Tk()
 root.title("Login Form")
 main(root)
