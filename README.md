@@ -1,10 +1,10 @@
-# Login-System-With-TKinter-Python
+#Login-System-With-TKinter-Python
 
 from tkinter import *
 from tkinter import messagebox as ms
 import sqlite3
 
-# make database and users (if not exists already) table at programme start up
+#make database and users (if not exists already) table at programme start up
 with sqlite3.connect('quit.db') as db:
     c = db.cursor()
 
@@ -12,27 +12,27 @@ c.execute('CREATE TABLE IF NOT EXISTS user (username TEXT NOT NULL ,password TEX
 db.commit()
 db.close()
 
-
-# main Class
+#main Class
 class main:
     def __init__(self, master):
-        # Window
+#Window
         self.master = master
-        # Some Usefull variables
+#Some Usefull variables
         self.username = StringVar()
         self.password = StringVar()
         self.n_username = StringVar()
         self.n_password = StringVar()
-        # Create Widgets
+#Create Widgets
         self.widgets()
 
-    # Login Function
+
+#Login Function
     def login(self):
-        # Establish Connection
+#Establish Connection
         with sqlite3.connect('quit.db') as db:
             c = db.cursor()
 
-        # Find user If there is any take proper action
+#Find user If there is any take proper action
         find_user = ('SELECT * FROM user WHERE username = ? and password = ?')
         c.execute(find_user, [(self.username.get()), (self.password.get())])
         result = c.fetchall()
@@ -44,11 +44,11 @@ class main:
             ms.showerror('Oops!', 'Username Not Found.')
 
     def new_user(self):
-        # Establish Connection
+#Establish Connection
         with sqlite3.connect('quit.db') as db:
             c = db.cursor()
 
-        # Find Existing username if any take proper action
+#Find Existing username if any take proper action
         find_user = ('SELECT * FROM user WHERE username = ?')
         c.execute(find_user, [(self.username.get())])
         if c.fetchall():
@@ -56,12 +56,12 @@ class main:
         else:
             ms.showinfo('Success!', 'Account Created!')
             self.log()
-        # Create New Account
+#Create New Account
         insert = 'INSERT INTO user(username,password) VALUES(?,?)'
         c.execute(insert, [(self.n_username.get()), (self.n_password.get())])
         db.commit()
 
-        # Frame Packing Methords
+#Frame Packing Methords
 
     def log(self):
         self.username.set('')
@@ -76,8 +76,8 @@ class main:
         self.logf.pack_forget()
         self.head['text'] = 'Create Account'
         self.crf.pack()
-
-    # Draw Widgets
+        
+#Draw Widgets
     def widgets(self):
         self.head = Label(self.master, text='LOGIN', font=('', 35), pady=10)
         self.head.pack()
@@ -99,8 +99,8 @@ class main:
         Button(self.crf, text='Go to Login', bd=3, font=('', 15), padx=5, pady=5, command=self.log).grid(row=2,column=1)
 
 
-# create window and application object
+#create window and application object
 root = Tk()
-# root.title("Login Form")
+root.title("Login Form")
 main(root)
 root.mainloop()
